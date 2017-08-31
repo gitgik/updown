@@ -15,7 +15,7 @@ class File(DateMixin):
     """This class represents the file model."""
 
     file_id = models.CharField(default=generate_uid, max_length=50)
-    _file = models.FileField(upload_to=get_file_upload_path)
+    _file = models.FileField()
 
     def __str__(self):
         """Return a string representation of the model instance."""

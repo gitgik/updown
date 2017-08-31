@@ -8,8 +8,14 @@ file_list = FileUploadViewSet.as_view({
     'post': 'create'
 })
 
-urlpatterns = [
-    url(r'files/', file_list, name="api.upload"),
-]
+file_detail = FileUploadViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy',
+})
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns = format_suffix_patterns([
+    url(r'files/$', file_list, name="file-list"),
+    url(r'^files/(?P<pk>[0-9]+)/$',  file_detail, name="file-detail"),
+])
