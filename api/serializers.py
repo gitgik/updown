@@ -5,7 +5,7 @@ from .models import File
 from rest_framework import serializers
 
 
-class FileUploadeSerializer(serializers.HyperlinkedModelSerializer):
+class FileUploadSerializer(serializers.HyperlinkedModelSerializer):
     """Define the file api representation."""
 
     class Meta:

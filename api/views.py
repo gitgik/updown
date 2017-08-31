@@ -13,4 +13,4 @@ class FileUploadViewSet(ModelViewSet):
     parser_classes = (FormParser, MultiPartParser)
 
     def perform_create(self, serializer):
-        serializer.save(self.request.data.get('_file'))
+        serializer.save(_file=self.request.data.get('_file'))
