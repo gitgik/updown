@@ -2,6 +2,8 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.urlresolvers import reverse
+from api.models import File
+
 
 class ViewsTestCase(TestCase):
     """Test suite for views."""
@@ -25,7 +27,8 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_getting_all_files(self):
-        response = self.client.get(reverse('file_get'))
+        response = self.client.get(reverse('api.upload'))
+
 
     def test_getting_specific_file(self):
         pass

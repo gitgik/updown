@@ -19,5 +19,5 @@ class File(DateMixin):
 
     def __str__(self):
         """Return a string representation of the model instance."""
-        return "{}".format(self.name)
+        return "{}".format(self.file_id)
 

@@ -11,11 +11,14 @@ class ModelsTestCase(TestCase):
         self.file_object = File()
         self.dates = DateMixin()
 
-    def test_book_creation(self):
+    def test_file_creation(self):
         """Test whether a book can be created."""
         self.file_object._file = SimpleUploadedFile(
-            name='test_file.jpeg', content_type='image/jpeg')
+            name='test_file.jpeg',
+            content=open('/tests/test_file.jpeg', 'rb').read(),
+            content_type='image/jpeg')
         self.file_object.save()
+        self.assertIsInstance(self.file_object, File)
         self.assertEqual(File.objects.count(), 1)
 
     def test_date_mixin(self):
@@ -24,4 +27,4 @@ class ModelsTestCase(TestCase):
 
     def test_models__human_readable_representation(self):
         """Test the models instances return a string."""
-        self.assertEqual(str(self.file), self.file_name)
+        self.assertTrue(str(self.file_object))
