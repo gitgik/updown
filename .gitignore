@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# ignore media files that have been uploaded
+media/
