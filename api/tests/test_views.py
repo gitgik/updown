@@ -3,6 +3,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.urlresolvers import reverse
 from api.models import File
+import os
 
 
 class ViewsTestCase(TestCase):
@@ -11,6 +12,12 @@ class ViewsTestCase(TestCase):
     def setUp(self):
         """setup variables"""
         self.client = APIClient()
+
+    def tearDown(self):
+        """clean up residual test files."""
+        File.objects.all().delete()
+        file_storage_path = os.getcwd() + "/files/"
+        os.remove(file_storage_path + 'file')
 
     def create_file(self, filepath):
         """Create a file for testing."""
@@ -21,14 +28,24 @@ class ViewsTestCase(TestCase):
         return {'_file': f}
 
     def test_file_upload(self):
+        """Test that the user can upload a file."""
+
         data = self.create_file('/tmp/file')
         response = self.client.post(
-            reverse('api.upload'), data, format='multipart')
+            reverse('files-list'), data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_getting_all_files(self):
-        response = self.client.get(reverse('api.upload'))
+        """Test that the user can get all the files."""
 
+        data = self.create_file('/tmp/file')
+        response = self.client.post(
+            reverse('files-list'), data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        res = self.client.get(reverse('files-list'))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIsNotNone(res.data)
 
     def test_getting_specific_file(self):
         pass
@@ -37,11 +54,11 @@ class ViewsTestCase(TestCase):
         """Ensure an existing file can be deleted."""
         data = self.create_file('/tmp/file')
         response = self.client.post(
-            reverse('api.upload'), data, format='multipart')
+            reverse('files-list'), data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # get the file that's just been uploaded
         new_file = File.objects.get()
         res = self.client.delete(
-            reverse('api.delete'), kwargs={'pk': new_file.id}, follow=True)
+            reverse('files-detail', kwargs={'pk': new_file.id}, follow=True))
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
