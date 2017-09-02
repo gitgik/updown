@@ -17,10 +17,11 @@ class ModelsTestCase(TestCase):
     def tearDown(self):
         """Remove files after testing."""
         pattern = "^(?=test_file)\w+"
-        for the_file in os.listdir("media/files"):
-            # remove all the uploaded test files
-            if re.search(pattern, the_file):
-                os.remove(os.getcwd() + '/media/files/' + the_file)
+        if os.path.isdir(os.getcwd() + '/media/files/'):
+            for the_file in os.listdir("media/files"):
+                # remove all the uploaded test files
+                if re.search(pattern, the_file):
+                    os.remove(os.getcwd() + '/media/files/' + the_file)
 
     def test_model_can_create_file(self):
         """Test whether a file can be created using the model."""

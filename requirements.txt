@@ -1,3 +1,4 @@
+coverage==4.4.1
 Django==1.11.4
 djangorestframework==3.6.4
 hashids==1.2.0
