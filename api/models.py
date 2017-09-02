@@ -11,13 +11,14 @@ import os
 class DateMixin(models.Model):
     """A model mixin for date creation."""
 
-    created = models.DateField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
 
 class File(DateMixin):
     """This class represents the file model."""
 
-    file_id = models.CharField(default=generate_uid, max_length=50)
+    file_id = models.CharField(default=generate_uid, max_length=20)
     _file = models.FileField(upload_to="files")
 
     def __str__(self):
