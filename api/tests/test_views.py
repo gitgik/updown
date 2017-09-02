@@ -69,7 +69,19 @@ class ViewsTestCase(TestCase):
         self.assertContains(res, the_file)
 
     def testing_file_modification(self):
-        pass
+        """Test a user can edit an existing file."""
+        the_file = File.objects.get()
+        new_file = self.create_file('/tmp/file')
+        new_data = {
+            "_file": new_file,
+            "owner": self.user.id
+        }
+        res = self.client.put(
+            reverse('files-detail', kwargs={'pk': the_file.id}),
+            new_data,
+            format="multipart"
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_deleting_a_file(self):
         """Ensure an existing file can be deleted."""
