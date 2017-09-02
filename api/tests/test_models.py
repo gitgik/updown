@@ -2,6 +2,7 @@ from django.test import TestCase
 from api.models import File, DateMixin
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
+import re
 
 
 class ModelsTestCase(TestCase):
@@ -13,7 +14,15 @@ class ModelsTestCase(TestCase):
         self.dates = DateMixin()
         self.test_file_path = os.getcwd() + "/api/tests/test_file.jpeg"
 
-    def test_file_creation(self):
+    def tearDown(self):
+        """Remove files after testing."""
+        pattern = "^(?=test_file)\w+"
+        for the_file in os.listdir("media/files"):
+            # remove all the uploaded test files
+            if re.search(pattern, the_file):
+                os.remove(os.getcwd() + '/media/files/' + the_file)
+
+    def test_model_can_create_file(self):
         """Test whether a file can be created using the model."""
         with open(self.test_file_path, 'rb') as f:
             jpg_data = f.read()

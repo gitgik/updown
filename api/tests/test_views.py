@@ -4,6 +4,7 @@ from rest_framework import status
 from django.core.urlresolvers import reverse
 from api.models import File
 import os
+import re
 
 
 class ViewsTestCase(TestCase):
@@ -16,8 +17,11 @@ class ViewsTestCase(TestCase):
     def tearDown(self):
         """clean up residual test files."""
         File.objects.all().delete()
-        file_storage_path = os.getcwd() + "/files/"
-        os.remove(file_storage_path + 'file')
+        pattern = "^(?=test_file)\w+"
+        for the_file in os.listdir("media/files"):
+            # remove all the uploaded test files
+            if re.search(pattern, the_file):
+                os.remove(os.getcwd() + '/media/files/' + the_file)
 
     def create_file(self, filepath):
         """Create a file for testing."""
@@ -30,7 +34,7 @@ class ViewsTestCase(TestCase):
     def test_file_upload(self):
         """Test that the user can upload a file."""
 
-        data = self.create_file('/tmp/file')
+        data = self.create_file('/tmp/test_file')
         response = self.client.post(
             reverse('files-list'), data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -59,6 +63,6 @@ class ViewsTestCase(TestCase):
         # get the file that's just been uploaded
         new_file = File.objects.get()
         res = self.client.delete(
-            reverse('files-detail', kwargs={'pk': new_file.id}, follow=True))
+            reverse('files-detail', kwargs={'pk': new_file.id}))
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
