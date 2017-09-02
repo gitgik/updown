@@ -1,6 +1,7 @@
 from django.test import TestCase
 from api.models import File, DateMixin
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.auth.models import User
 import os
 import re
 
@@ -13,6 +14,7 @@ class ModelsTestCase(TestCase):
         self.file_object = File()
         self.dates = DateMixin()
         self.test_file_path = os.getcwd() + "/api/tests/test_file.jpeg"
+        self.user = User.objects.create(username="test_user")
 
     def tearDown(self):
         """Remove files after testing."""
@@ -31,6 +33,7 @@ class ModelsTestCase(TestCase):
             name="test_file.jpeg",
             content=jpg_data,
             content_type='image/jpeg')
+        self.file_object.owner = self.user
         self.file_object.save()
         self.assertIsInstance(self.file_object, File)
         self.assertEqual(File.objects.count(), 1)

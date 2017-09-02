@@ -16,6 +16,8 @@ file_detail = FileUploadViewSet.as_view({
 })
 
 urlpatterns = format_suffix_patterns([
+    url(r'^auth/',
+        include('rest_framework.urls', namespace='rest_framework')),
     url(r'files/$', file_list, name="files-list"),
     url(r'^files/(?P<pk>[0-9]+)/$',  file_detail, name="files-detail"),
 ])
