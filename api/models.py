@@ -20,6 +20,8 @@ class File(DateMixin):
 
     file_id = models.CharField(default=generate_uid, max_length=20)
     _file = models.FileField(upload_to="files")
+    owner = models.ForeignKey(
+        'auth.User', related_name="files", on_delete=models.CASCADE)
 
     def __str__(self):
         """Return a string representation of the model instance."""
