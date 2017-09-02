@@ -53,7 +53,19 @@ class ViewsTestCase(TestCase):
         self.assertIsNotNone(res.data)
 
     def test_getting_specific_file(self):
-        pass
+        """Test that a user can get a specific file given the id."""
+
+        data = self.create_file('/tmp/file')
+        response = self.client.post(
+            reverse('files-list'), data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # get the created file
+        the_file = File.objects.get()
+        res = self.client.get(
+            reverse('files-detail', kwargs={'pk': the_file.id}))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertContains(res, the_file)
 
     def test_deleting_a_file(self):
         """Ensure an existing file can be deleted."""

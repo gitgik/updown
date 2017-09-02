@@ -12,5 +12,5 @@ class FileUploadSerializer(serializers.ModelSerializer):
         """Meta class"""
 
         model = File
-        fields = ('_file', 'created')
+        fields = ('id', 'file_id', '_file', 'created')
 
