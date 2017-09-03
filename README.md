@@ -28,8 +28,8 @@ A RESTful file managing API ~ with steroids!
 
     2. Create and fire up your virtual environment:
         ```
-            $ virtualenv env
-            $ source env/bin/activate
+            $ virtualenv  venv -p python3
+            $ source venv/bin/activate
         ```
     3. Install the dependencies needed to run the app:
     ```
