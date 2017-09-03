@@ -31,7 +31,7 @@ class ViewsTestCase(TestCase):
 
     def tearDown(self):
         """clean up residual test files."""
-        # File.objects.all().delete()
+        File.objects.all().delete()
         pattern = "^(?=test_file)\w+"
         if os.path.isdir(os.getcwd() + '/media/files/'):
             for the_file in os.listdir("media/files"):
