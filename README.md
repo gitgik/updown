@@ -11,46 +11,53 @@ A RESTful file managing API ~ with steroids!
 ## Installation
 * If you wish to run your own build, first ensure you have python globally installed in your computer. If not, you can get python [here](https://www.python.org").
 * After doing this, confirm that you have installed virtualenv globally as well. If not, run this:
-    ```
+    ```bash
         $ pip install virtualenv
     ```
 * Then, Git clone this repo to your PC
-    ```
+    ```bash
         $ git clone https://github.com/gitgik/updown.git
     ```
 
+* Set the environment variables, specifically the SECRET_KEY
+    ```bash
+        $ export SECRET_KEY="<my-own-secret>"
+    ```
 
 * #### Dependencies
     1. Cd into your the cloned repo as such:
-        ```
+        ```bash
             $ cd updown
         ```
-
     2. Create and fire up your virtual environment:
-        ```
+        ```bash
             $ virtualenv  venv -p python3
             $ source venv/bin/activate
         ```
     3. Install the dependencies needed to run the app:
-    ```
-        $ pip install -r requirements.txt
-    ```
+        ```bash
+            $ pip install -r requirements.txt
+        ```
     4. Create the updown postgres database to work with:
-    ```
-        $ psql -c "CREATE DATABASE updown;" -U posgres 
-    ```
+        ```bash
+            $ psql -c "CREATE DATABASE updown;" -U posgres 
+        ```
     If you love using the createdb utility provided by Postgres, then
     simply run **`createdb updown`** on your terminal
 
-    4. Make those migrations work
-    ```
+    After doing this, ensure you set the DATABASE_URL env variable as follows:
+        ```bash
+            $ export DATABASE_URL="postgresql://localhost:5432/updown"
+        ```
+    5. Make those migrations work
+    ```bash
         $ python manage.py makemigrations
         $ python manage.py migrate
     ```
 
 * #### Run It
     Fire up the server using this one simple command:
-    ```
+    ```bash
         $ python manage.py runserver
     ```
     You can now access the file api service on your browser by using
