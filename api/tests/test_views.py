@@ -68,6 +68,13 @@ class ViewsTestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertContains(res, the_file)
 
+
+    def test_file_search(self):
+        """Test that a user can search for a given file, given its name."""
+        res = self.client.get('/api/files/?name={}'.format('test_file'))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res.data), 1)
+
     def testing_file_modification(self):
         """Test a user can edit an existing file."""
         the_file = File.objects.get()
