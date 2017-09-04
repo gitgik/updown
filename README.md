@@ -1,4 +1,4 @@
-# updown [![Build Status](https://travis-ci.org/gitgik/updown.svg?branch=develop)](https://travis-ci.org/gitgik/updown)
+# updown [![Build Status](https://travis-ci.org/gitgik/updown.svg?branch=develop)](https://travis-ci.org/gitgik/updown)  [![Coverage Status](https://coveralls.io/repos/github/gitgik/updown/badge.svg?branch=develop)](https://coveralls.io/github/gitgik/updown?branch=develop)
 
 A RESTful file managing API ~ with steroids!
 
