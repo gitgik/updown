@@ -18,6 +18,7 @@ class ModelsTestCase(TestCase):
 
     def tearDown(self):
         """Remove files after testing."""
+        File.objects.all().delete()
         pattern = "^(?=test_file)\w+"
         if os.path.isdir(os.getcwd() + '/media/files/'):
             for the_file in os.listdir("media/files"):

@@ -2,9 +2,11 @@
 This file represents the models for the api app.
 """
 from django.db import models
-from .utils import get_file_upload_path, generate_uid
-from django.db.models.signals import post_delete
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from .utils import generate_uid
 import os
 
 
@@ -19,9 +21,15 @@ class File(DateMixin):
     """This class represents the file model."""
 
     file_id = models.CharField(default=generate_uid, max_length=20)
+    name = models .CharField(max_length=255, blank=False)
     _file = models.FileField(upload_to="files")
     owner = models.ForeignKey(
-        'auth.User', related_name="files", on_delete=models.CASCADE)
+        User, related_name="files", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        """Save the name of the file in the name field."""
+        self.name = self._file.name
+        super(File, self).save(*args, **kwargs)
 
     def __str__(self):
         """Return a string representation of the model instance."""
@@ -38,3 +46,13 @@ def delete_file(sender, instance, **kwargs):
     file_path = instance._file.path
     if os.path.exists(file_path):
         os.remove(file_path)
+
+
+@receiver(post_save, sender=User)
+def create_token(sender, instance, created, **kwargs):
+    """
+    This function handles a signal to create an auth token immediately a user
+    created
+    """
+    if created:
+        Token.objects.create(user=instance)
