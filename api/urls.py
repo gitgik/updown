@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.authtoken.views import obtain_auth_token
 from api.views import FileUploadViewSet
 
 
@@ -16,6 +17,7 @@ file_detail = FileUploadViewSet.as_view({
 })
 
 urlpatterns = format_suffix_patterns([
+    url(r'^get-token/', obtain_auth_token),
     url(r'^auth/',
         include('rest_framework.urls', namespace='rest_framework')),
     url(r'files/$', file_list, name="files-list"),
