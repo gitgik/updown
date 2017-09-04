@@ -21,9 +21,15 @@ class File(DateMixin):
     """This class represents the file model."""
 
     file_id = models.CharField(default=generate_uid, max_length=20)
+    name = models .CharField(max_length=255, blank=False)
     _file = models.FileField(upload_to="files")
     owner = models.ForeignKey(
         User, related_name="files", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        """Save the name of the file in the name field."""
+        self.name = self._file.name
+        super(File, self).save(*args, **kwargs)
 
     def __str__(self):
         """Return a string representation of the model instance."""
