@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from .models import File
 from .serializers import FileUploadSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from .permissions import IsTheFileOwner
 
 
 class FileUploadViewSet(ModelViewSet):
@@ -15,7 +16,7 @@ class FileUploadViewSet(ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileUploadSerializer
     parser_classes = (FormParser, MultiPartParser, JSONParser)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsTheFileOwner)
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ("name",)
 
