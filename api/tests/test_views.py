@@ -18,7 +18,7 @@ class ViewsTestCase(TestCase):
         self.client = APIClient()
         self.user = User.objects.create(username="nerd", password="password")
         self.client.force_authenticate(user=self.user)
-        self.client.login(username="nerd", password="password")
+        # self.client.login(username="nerd", password="password")
 
         # define the repeated task of post request here
         data = {
@@ -46,6 +46,12 @@ class ViewsTestCase(TestCase):
         f.close()
         f = open(filepath, 'rb')
         return f
+
+    def test_enforced_user_authentication(self):
+        """Test that only authenticated users can access API resources."""
+        new_client = APIClient()
+        response = new_client.get(reverse('files-list'))
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_file_upload(self):
         """Test that the user can upload a file."""

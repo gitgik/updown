@@ -42,10 +42,10 @@ A RESTful file managing API ~ with steroids!
         ```bash
             $ psql -c "CREATE DATABASE updown;" -U posgres 
         ```
-    If you love using the createdb utility provided by Postgres, then
-    simply run **`createdb updown`** on your terminal
+        If you love using the createdb utility provided by Postgres, then
+        simply run **`createdb updown`** on your terminal
 
-    After doing this, ensure you set the DATABASE_URL env variable as follows:
+        After doing this, ensure you set the DATABASE_URL env variable as follows:
         ```bash
             $ export DATABASE_URL="postgresql://localhost:5432/updown"
         ```
