@@ -16,4 +16,3 @@ class FileUploadSerializer(serializers.ModelSerializer):
         model = File
         fields = ('id', 'file_id', '_file', 'owner', 'created')
         read_only_fields = ('file_id', 'created')
-

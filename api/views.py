@@ -5,11 +5,11 @@ from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 from rest_framework.views import APIView
-from .models import File
-from .serializers import FileUploadSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from .permissions import IsTheFileOwner
 
+from .serializers import FileUploadSerializer
+from .permissions import IsTheFileOwner
+from .models import File
 
 class FileUploadViewSet(ModelViewSet):
     """A viewset to handle file uploads."""
@@ -17,8 +17,8 @@ class FileUploadViewSet(ModelViewSet):
     serializer_class = FileUploadSerializer
     parser_classes = (FormParser, MultiPartParser, JSONParser)
     permission_classes = (permissions.IsAuthenticated, IsTheFileOwner)
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ("name",)
+    filter_backends = (DjangoFilterBackend, )
+    filter_fields = ("name", )
 
     def perform_create(self, serializer):
         owner = self.request.user
