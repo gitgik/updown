@@ -1,6 +1,9 @@
+"""This file represents helper functions."""
+
 import os
 from time import time
 from hashids import Hashids
+
 from django.conf import settings
 
 
